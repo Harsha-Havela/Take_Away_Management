@@ -1,0 +1,638 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Your original CSS untouched */
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 { opacity: 0; }
+
+    .sidebar ul { list-style: none; padding: 0; }
+
+    .sidebar ul li { margin: 10px; }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover { background-color: #57606f; }
+
+    .sidebar .icon { font-size: 20px; min-width: 25px; text-align: center; }
+
+    .sidebar .label { transition: opacity 0.3s ease; }
+
+    .sidebar.collapsed .label { opacity: 0; }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed { margin-left: var(--sidebar-collapsed-width); }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover { background-color: #f0f0f0; }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: white;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .order-card {
+      background-color: #ffffffdc;
+      border-left: 5px solid #2ecc71;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      color: #2c3e50;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .btn-track {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-track:hover { background-color: #27ae60; }
+
+    .no-orders {
+      color: #eee;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .order-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 1.05rem;
+      margin-top: 1rem;
+    }
+
+    .order-items {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid #ecf0f1;
+    }
+
+    .order-items li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .order-total {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="{{ url_for('admin_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('menu') }}"><span class="icon">📋</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('orders') }}"><span class="icon">🛒</span><span class="label">Orders</span></a></li>
+      <li><a href="{{ url_for('stocks') }}"><span class="icon">📦</span><span class="label">Stocks</span></a></li>
+      <li><a href="{{ url_for('about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">Edit Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>All Customer Orders</h1>
+
+      {% if orders %}
+        {% for order in orders %}
+          <div class="order-card">
+            <h2>Order ID: {{ order.order_id }}</h2>
+            <div class="order-info">
+              <div><strong>User:</strong> {{ order.email }}</div>
+              <div><strong>Date:</strong> {{ order.date }}</div>
+              <div><strong>Status:</strong> {{ order.status }}</div>
+              <div><strong>Payment Method:</strong> {{ order.payment_method }}</div>
+            </div>
+
+            <ul class="order-items">
+              {% for item in order['items'] %}
+                <li>🟢 <strong>{{ item.name }}</strong> - ₹{{ item.price }} × {{ item.quantity }} = ₹{{ item.price * item.quantity }}</li>
+              {% endfor %}
+            </ul>
+
+            <div class="order-footer">
+              <div class="order-total">Total: ₹{{ order.total }}</div>
+              <a href="{{ url_for('track_order', order_id=order.order_id) }}" class="btn-track">Track Order</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-orders">No orders yet!</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const main = document.getElementById('main');
+      sidebar.classList.toggle('collapsed');
+      main.classList.toggle('collapsed');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Your original CSS untouched */
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 { opacity: 0; }
+
+    .sidebar ul { list-style: none; padding: 0; }
+
+    .sidebar ul li { margin: 10px; }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover { background-color: #57606f; }
+
+    .sidebar .icon { font-size: 20px; min-width: 25px; text-align: center; }
+
+    .sidebar .label { transition: opacity 0.3s ease; }
+
+    .sidebar.collapsed .label { opacity: 0; }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed { margin-left: var(--sidebar-collapsed-width); }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover { background-color: #f0f0f0; }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: rgb(255, 255, 255);
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .order-card {
+      background-color: #ffffffc9;
+      border-left: 5px solid #2ecc71;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      color: #2c3e50;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .order-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 1.05rem;
+      margin-top: 1rem;
+      color:black
+    }
+
+    .order-items {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid #ecf0f1;
+    }
+
+    .order-items li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color:black;
+    }
+
+    .order-total {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color:black;
+    }
+
+    .status-update {
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Center the items horizontally */
+    gap: 15px;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 600px;  /* Optional: control the overall width */
+    margin-left: auto;
+    margin-right: auto;
+    color:black;
+    }
+
+    .status-update select {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    height: 40px;
+    text-align: center;  /* Center the text */
+    flex-grow: 1;
+    width: auto;  /* Allow the dropdown to resize based on content */
+    }
+
+    .status-update button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #2ecc71;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px;
+    min-width: 100px;  /* Make sure the button doesn't shrink */
+    }
+
+    .status-update button:hover {
+    background-color: #27ae60;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="{{ url_for('admin_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('menu') }}"><span class="icon">📋</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('orders') }}"><span class="icon">🛒</span><span class="label">Orders</span></a></li>
+      <li><a href="{{ url_for('stocks') }}"><span class="icon">📦</span><span class="label">Stocks</span></a></li>
+      <li><a href="{{ url_for('about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">Edit Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>All Customer Orders</h1>
+
+      {% if orders %}
+        {% for order in orders %}
+          <div class="order-card">
+            <h2>Order ID: {{ order.order_id }}</h2>
+            <div class="order-info">
+              <div><strong>Date:</strong> {{ order.date }}</div>
+              <div><strong>Status:</strong> {{ order.status }}</div>
+              <div><strong>Payment Method:</strong> {{ order.payment_method }}</div>
+            </div>
+
+            <ul class="order-items">
+              {% for item in order['items'] %}
+                <li>🟢 <strong>{{ item['name'] }}</strong> - ₹{{ item['price'] }} × {{ item['quantity'] }} = ₹{{ item['price'] * item['quantity'] }}</li>
+              {% endfor %}
+            </ul>
+
+            <div class="order-footer">
+              <div class="order-total">Total: ₹{{ order.total }}</div>
+              <div class="status-update">
+                {% if not order.assigned_to %}
+                  <!-- Only show assignment if no delivery person is assigned -->
+                  <form method="POST" action="{{ url_for('assign_delivery', order_id=order.order_id) }}">
+                    <label for="delivery_email">Assign Delivery:</label>
+                    <select name="delivery_email" required>
+                      {% for person in free_delivery_people %}
+                        <option value="{{ person }}">{{ person }}</option>
+                      {% endfor %}
+                    </select>
+                    <button type="submit">Assign</button>
+                  </form>
+                {% else %}
+                  <strong>Assigned To:</strong> {{ order.assigned_to }}
+                {% endif %}
+
+
+              </div>
+
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No orders found.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('main').classList.toggle('collapsed');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+
+</body>
+</html>

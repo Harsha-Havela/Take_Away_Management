@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #57606f;
+    }
+
+    .sidebar .icon {
+      font-size: 20px;
+      min-width: 25px;
+      text-align: center;
+    }
+
+    .sidebar .label {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .label {
+      opacity: 0;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1,
+    .content p {
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1,
+    .content p {
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .card-link {
+      background-color: rgb(255, 237, 211,1.5);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color:rgb(38, 38, 38);
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    .card-link:hover {
+      background-color: rgb(204, 203, 203);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar" id="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('user_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('user_menu') }}"><span class="icon">📖</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('user_orders') }}"><span class="icon">🧾</span><span class="label">My Orders</span></a></li>
+      <li><a href="{{ url_for('user_feedback') }}"><span class="icon">✍️</span><span class="label">Feedback</span></a></li>
+      <li><a href="{{ url_for('user_about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+      <li><a href="{{ url_for('view_cart') }}"><span class="icon">🛒</span><span class="label">Cart</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">My Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Hello, {{ user }} 👋</h1>
+      <p>Welcome to your Time Pass dashboard. What would you like to do today?</p>
+
+      <div class="quick-links">
+        <a class="card-link" href="{{ url_for('user_menu') }}">🍔 Browse Menu</a>
+        <a class="card-link" href="{{ url_for('user_orders') }}">🧾 Track Orders</a>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("collapsed");
+      document.getElementById("main").classList.toggle("collapsed");
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdownMenu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("click", function (e) {
+      const dropdown = document.getElementById("dropdownMenu");
+      const profile = document.querySelector(".profile");
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>

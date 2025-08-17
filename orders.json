@@ -1,0 +1,267 @@
+{
+    "harshaagan23@gmail.com": [
+        {
+            "order_id": 1,
+            "date": "2025-08-08",
+            "time": "09:53:14",
+            "items": [
+                {
+                    "name": "Veg Cutlet",
+                    "price": 40.0,
+                    "quantity": 1,
+                    "category": "Snacks"
+                }
+            ],
+            "total": 40.0,
+            "payment_method": "online",
+            "status": "Out for Delivery",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": 6968,
+            "otp_attempts": 0
+        },
+        {
+            "order_id": 2,
+            "date": "2025-08-08",
+            "time": "10:28:04",
+            "items": [
+                {
+                    "name": "Masala Chai",
+                    "price": 20.0,
+                    "quantity": 2,
+                    "category": "Beverages"
+                }
+            ],
+            "total": 40.0,
+            "payment_method": "online",
+            "status": "Delivered",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": 2295,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        },
+        {
+            "order_id": 4,
+            "date": "2025-08-08",
+            "time": "11:45:35",
+            "items": [
+                {
+                    "name": "Gulab Jamun",
+                    "price": 30.0,
+                    "quantity": 3,
+                    "category": "Desserts"
+                }
+            ],
+            "total": 90.0,
+            "payment_method": "online",
+            "status": "Delivered",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": 2860,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        },
+        {
+            "order_id": 7,
+            "date": "2025-08-08",
+            "time": "12:26:01",
+            "items": [
+                {
+                    "name": "Jalebi",
+                    "price": 35.0,
+                    "quantity": 2,
+                    "category": "Desserts"
+                }
+            ],
+            "total": 70.0,
+            "payment_method": "cod",
+            "status": "Delivered",
+            "assigned_to": "cus@delivery.com",
+            "otp": 3430,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        },
+        {
+            "order_id": 8,
+            "date": "2025-08-08",
+            "time": "12:30:21",
+            "items": [
+                {
+                    "name": "Kadai Paneer",
+                    "price": 150.0,
+                    "quantity": 1,
+                    "category": "Main Course"
+                }
+            ],
+            "total": 150.0,
+            "payment_method": "online",
+            "status": "Out for Delivery",
+            "assigned_to": "cus@delivery.com",
+            "otp": null,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        },
+        {
+            "order_id": 10,
+            "date": "2025-08-08",
+            "time": "12:34:55",
+            "items": [
+                {
+                    "name": "Chole Bhature",
+                    "price": 90.0,
+                    "quantity": 1,
+                    "category": "Snacks"
+                }
+            ],
+            "total": 90.0,
+            "payment_method": "online",
+            "status": "In Progress",
+            "assigned_to": null,
+            "otp": null,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        },
+        {
+            "order_id": 11,
+            "date": "2025-08-08",
+            "time": "12:44:23",
+            "items": [
+                {
+                    "name": "Kadai Paneer",
+                    "price": 150.0,
+                    "quantity": 1,
+                    "category": "Main Course"
+                }
+            ],
+            "total": 150.0,
+            "payment_method": "cod",
+            "status": "Out for Delivery",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": null,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        },
+        {
+            "order_id": 13,
+            "date": "2025-08-08",
+            "time": "12:50:18",
+            "items": [
+                {
+                    "name": "Masala Chai",
+                    "price": 20.0,
+                    "quantity": 1,
+                    "category": "Beverages"
+                }
+            ],
+            "total": 20.0,
+            "payment_method": "online",
+            "status": "Out for Delivery",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": null,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        }
+    ],
+    "harshaagan23@delivery.com": [
+        {
+            "order_id": 5,
+            "date": "2025-08-08",
+            "time": "11:46:49",
+            "items": [
+                {
+                    "name": "Onion Rings",
+                    "price": 65.0,
+                    "quantity": 3,
+                    "category": "Snacks"
+                }
+            ],
+            "total": 195.0,
+            "payment_method": "cod",
+            "status": "Out for Delivery",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": 4629,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        }
+    ],
+    "harsha2310653@ssn.edu.in": [
+        {
+            "order_id": 6,
+            "date": "2025-08-08",
+            "time": "11:49:29",
+            "items": [
+                {
+                    "name": "Kheer",
+                    "price": 40.0,
+                    "quantity": 2,
+                    "category": "Desserts"
+                }
+            ],
+            "total": 80.0,
+            "payment_method": "cod",
+            "status": "Delivered",
+            "assigned_to": "harshaagan23@delivery.com",
+            "otp": 6096,
+            "otp_attempts": 0,
+            "delivery_person": "harshaagan23@delivery.com"
+        },
+        {
+            "order_id": 9,
+            "date": "2025-08-08",
+            "time": "12:33:17",
+            "items": [
+                {
+                    "name": "Kachori",
+                    "price": 25.0,
+                    "quantity": 1,
+                    "category": "Snacks"
+                }
+            ],
+            "total": 25.0,
+            "payment_method": "cod",
+            "status": "Out for Delivery",
+            "assigned_to": "cus@delivery.com",
+            "otp": 6114,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        },
+        {
+            "order_id": 12,
+            "date": "2025-08-08",
+            "time": "12:45:01",
+            "items": [
+                {
+                    "name": "Samosa",
+                    "price": 20.0,
+                    "quantity": 1,
+                    "category": "Snacks"
+                }
+            ],
+            "total": 20.0,
+            "payment_method": "online",
+            "status": "Delivered",
+            "assigned_to": "cus@delivery.com",
+            "otp": 8288,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        },
+        {
+            "order_id": 14,
+            "date": "2025-08-08",
+            "time": "12:51:00",
+            "items": [
+                {
+                    "name": "Pongal",
+                    "price": 45.0,
+                    "quantity": 1,
+                    "category": "South Indian"
+                }
+            ],
+            "total": 45.0,
+            "payment_method": "cod",
+            "status": "Delivered",
+            "assigned_to": "cus@delivery.com",
+            "otp": 5954,
+            "otp_attempts": 0,
+            "delivery_person": "cus@delivery.com"
+        }
+    ]
+}

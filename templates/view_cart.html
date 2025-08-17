@@ -1,0 +1,1245 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Cart - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #57606f;
+    }
+
+    .sidebar .icon {
+      font-size: 20px;
+      min-width: 25px;
+      text-align: center;
+    }
+
+    .sidebar .label {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .label {
+      opacity: 0;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+      color: #333;
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1 {
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .cart-table {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 1rem;
+      color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-row.header {
+      font-weight: bold;
+    }
+
+    .cart-row:last-child {
+      border-bottom: none;
+    }
+
+    .cart-cell {
+      flex: 1;
+      text-align: center;
+    }
+
+    .total-section {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-align: right;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: flex-end;
+    }
+
+    .btn-clear, .btn-back {
+    padding: 8px 30px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    }
+
+    .btn-clear {
+    background-color: #ff6b6b;
+    }
+
+    .btn-back {
+    background-color: #2f3542;
+    }
+
+
+    /* New style for back button container on left, vertical below Item Name */
+    .back-button-container {
+      position: absolute;
+      left: 1rem;
+      top: 4.3rem; /* below header row, adjust if needed */
+    }
+
+    /* Increase size of proceed to pay */
+    .proceed-pay-btn {
+      padding: 10px 30px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background-color: #28a745 !important;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .no-items {
+      font-size: 1.2rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 2rem;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Style for quantity buttons inside form */
+    form button {
+      cursor: pointer;
+      background: #ddd;
+      border: none;
+      padding: 2px 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('user_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('user_menu') }}"><span class="icon">📖</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('user_orders') }}"><span class="icon">🧾</span><span class="label">My Orders</span></a></li>
+      <li><a href="{{ url_for('user_feedback') }}"><span class="icon">✍️</span><span class="label">Feedback</span></a></li>
+      <li><a href="{{ url_for('user_about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+      <li><a href="{{ url_for('view_cart') }}"><span class="icon">🛒</span><span class="label">Cart</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">My Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Your Cart</h1>
+
+      {% if cart and cart|length > 0 %}
+      <div class="cart-table">
+        <div class="cart-row header">
+          <div class="cart-cell">Item Name</div>
+          <div class="cart-cell">Price</div>
+          <div class="cart-cell">Quantity</div>
+          <div class="cart-cell">Total</div>
+          <div class="cart-cell">Action</div>
+        </div>
+
+        {% for item in cart %}
+        <div class="cart-row">
+          <div class="cart-cell">
+            {{ item.name }}
+            {% if item.is_out_of_stock %}
+              <div style="color: red; font-size: 0.85rem; margin-top: 5px;">❌ Currently out of stock</div>
+            {% endif %}
+          </div>
+          <div class="cart-cell">₹{{ item.price }}</div>
+          <div class="cart-cell">
+            {% if not item.is_out_of_stock %}
+              <form action="{{ url_for('update_quantity', item_name=item.name) }}" method="post">
+                <button type="submit" name="action" value="decrease">−</button>
+                <input type="text" name="quantity" value="{{ item.quantity }}" readonly style="width: 30px; text-align: center; background: transparent; border: none;" />
+                <button type="submit" name="action" value="increase">+</button>
+              </form>
+            {% else %}
+              <span style="color: gray;">N/A</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            {% if not item.is_out_of_stock %}
+              ₹{{ item.price * item.quantity }}
+            {% else %}
+              <span style="color: gray;">—</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            <a href="{{ url_for('remove_from_cart', item_name=item.name) }}" style="color: red; text-decoration: none;">Remove</a>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="cart-row" style="font-weight: bold;">
+          <div class="cart-cell"></div>
+          <div class="cart-cell"></div>
+          <div class="cart-cell" style="text-align: right;">Total:</div>
+          <div class="cart-cell">₹{{ total }}</div>
+          <div class="cart-cell"></div>
+        </div>
+
+        <div class="cart-row" style="justify-content: space-between; align-items: center; border-bottom: none; margin-top: 1.5rem;">
+          <a href="{{ url_for('user_menu') }}">
+            <button class="btn-back">📖 Back to Menu</button>
+          </a>
+          <a href="{{ url_for('clear_cart') }}">
+            <button class="btn-clear">🗑️ Clear Cart</button>
+          </a>
+        </div>
+      </div>
+
+      {% if total > 0 %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('checkout') }}">
+          <button class="proceed-pay-btn">🛍️ Checkout</button>
+        </a>
+      </div>
+      {% else %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <p style="color: red; font-weight: bold;">All items in your cart are currently out of stock.</p>
+      </div>
+      {% endif %}
+
+      {% else %}
+      <p class="no-items">Your cart is empty.</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('user_menu') }}">
+          <button class="btn-back">📖 Go to Menu</button>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('main').classList.toggle('collapsed');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile');
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Cart - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #57606f;
+    }
+
+    .sidebar .icon {
+      font-size: 20px;
+      min-width: 25px;
+      text-align: center;
+    }
+
+    .sidebar .label {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .label {
+      opacity: 0;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+      color: #333;
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1 {
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .cart-table {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 1rem;
+      color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-row.header {
+      font-weight: bold;
+    }
+
+    .cart-row:last-child {
+      border-bottom: none;
+    }
+
+    .cart-cell {
+      flex: 1;
+      text-align: center;
+    }
+
+    .total-section {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-align: right;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: flex-end;
+    }
+
+    .btn-clear, .btn-back {
+    padding: 8px 30px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    }
+
+    .btn-clear {
+    background-color: #ff6b6b;
+    }
+
+    .btn-back {
+    background-color: #2f3542;
+    }
+
+
+    /* New style for back button container on left, vertical below Item Name */
+    .back-button-container {
+      position: absolute;
+      left: 1rem;
+      top: 4.3rem; /* below header row, adjust if needed */
+    }
+
+    /* Increase size of proceed to pay */
+    .proceed-pay-btn {
+      padding: 10px 30px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background-color: #28a745 !important;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .no-items {
+      font-size: 1.2rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 2rem;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Style for quantity buttons inside form */
+    form button {
+      cursor: pointer;
+      background: #ddd;
+      border: none;
+      padding: 2px 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('user_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('user_menu') }}"><span class="icon">📖</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('user_orders') }}"><span class="icon">🧾</span><span class="label">My Orders</span></a></li>
+      <li><a href="{{ url_for('user_feedback') }}"><span class="icon">✍️</span><span class="label">Feedback</span></a></li>
+      <li><a href="{{ url_for('user_about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+      <li><a href="{{ url_for('view_cart') }}"><span class="icon">🛒</span><span class="label">Cart</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">My Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Your Cart</h1>
+
+      {% if cart and cart|length > 0 %}
+      <div class="cart-table">
+        <div class="cart-row header">
+          <div class="cart-cell">Item Name</div>
+          <div class="cart-cell">Price</div>
+          <div class="cart-cell">Quantity</div>
+          <div class="cart-cell">Total</div>
+          <div class="cart-cell">Action</div>
+        </div>
+
+        {% for item in cart %}
+        <div class="cart-row">
+          <div class="cart-cell">
+            {{ item.name }}
+            {% if item.is_out_of_stock %}
+              <div style="color: red; font-size: 0.85rem; margin-top: 5px;">❌ Currently out of stock</div>
+            {% endif %}
+          </div>
+          <div class="cart-cell">₹{{ item.price }}</div>
+          <div class="cart-cell">
+            {% if not item.is_out_of_stock %}
+              <form action="{{ url_for('update_quantity', item_name=item.name) }}" method="post">
+                <button type="submit" name="action" value="decrease">−</button>
+                <input type="text" name="quantity" value="{{ item.quantity }}" readonly style="width: 30px; text-align: center; background: transparent; border: none;" />
+                <button type="submit" name="action" value="increase">+</button>
+              </form>
+            {% else %}
+              <span style="color: gray;">N/A</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            {% if not item.is_out_of_stock %}
+              ₹{{ item.price * item.quantity }}
+            {% else %}
+              <span style="color: gray;">—</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            <a href="{{ url_for('remove_from_cart', item_name=item.name) }}" style="color: red; text-decoration: none;">Remove</a>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="cart-row" style="font-weight: bold;">
+          <div class="cart-cell"></div>
+          <div class="cart-cell"></div>
+          <div class="cart-cell" style="text-align: right;">Total:</div>
+          <div class="cart-cell">₹{{ total }}</div>
+          <div class="cart-cell"></div>
+        </div>
+
+        <div class="cart-row" style="justify-content: space-between; align-items: center; border-bottom: none; margin-top: 1.5rem;">
+          <a href="{{ url_for('user_menu') }}">
+            <button class="btn-back">📖 Back to Menu</button>
+          </a>
+          <a href="{{ url_for('clear_cart') }}">
+            <button class="btn-clear">🗑️ Clear Cart</button>
+          </a>
+        </div>
+      </div>
+
+      {% if total > 0 %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('checkout') }}">
+          <button class="proceed-pay-btn">🛍️ Checkout</button>
+        </a>
+      </div>
+      {% else %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <p style="color: red; font-weight: bold;">All items in your cart are currently out of stock.</p>
+      </div>
+      {% endif %}
+
+      {% else %}
+      <p class="no-items">Your cart is empty.</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('user_menu') }}">
+          <button class="btn-back">📖 Go to Menu</button>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('main').classList.toggle('collapsed');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile');
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Cart - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px;
+    }
+
+    .sidebar ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.2s, padding 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #57606f;
+    }
+
+    .sidebar .icon {
+      font-size: 20px;
+      min-width: 25px;
+      text-align: center;
+    }
+
+    .sidebar .label {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .label {
+      opacity: 0;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-image: url("/static/admin_bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .topbar {
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+      color: #333;
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 70px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .content h1 {
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .cart-table {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 1rem;
+      color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-row.header {
+      font-weight: bold;
+    }
+
+    .cart-row:last-child {
+      border-bottom: none;
+    }
+
+    .cart-cell {
+      flex: 1;
+      text-align: center;
+    }
+
+    .total-section {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-align: right;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: flex-end;
+    }
+
+    .btn-clear, .btn-back {
+      padding: 8px 30px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-clear {
+      background-color: #ff6b6b;
+    }
+
+    .btn-back {
+      background-color: #2f3542;
+    }
+
+    /* New style for back button container on left, vertical below Item Name */
+    .back-button-container {
+      position: absolute;
+      left: 1rem;
+      top: 4.3rem; /* below header row, adjust if needed */
+    }
+
+    /* Increase size of proceed to pay */
+    .proceed-pay-btn {
+      padding: 10px 30px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background-color: #28a745 !important;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .no-items {
+      font-size: 1.2rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 2rem;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Style for quantity buttons inside form */
+    form button {
+      cursor: pointer;
+      background: #ddd;
+      border: none;
+      padding: 2px 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <h2>User Dashboard</h2>
+    <ul>
+      <li><a href="{{ url_for('user_dashboard') }}"><span class="icon">🏠</span><span class="label">Home</span></a></li>
+      <li><a href="{{ url_for('user_menu') }}"><span class="icon">📖</span><span class="label">Menu</span></a></li>
+      <li><a href="{{ url_for('user_orders') }}"><span class="icon">🧾</span><span class="label">My Orders</span></a></li>
+      <li><a href="{{ url_for('user_feedback') }}"><span class="icon">✍️</span><span class="label">Feedback</span></a></li>
+      <li><a href="{{ url_for('user_about_us') }}"><span class="icon">ℹ️</span><span class="label">About Us</span></a></li>
+      <li><a href="{{ url_for('view_cart') }}"><span class="icon">🛒</span><span class="label">Cart</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">My Profile</a>
+        <a href="#">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Your Cart</h1>
+
+      {% if cart and cart|length > 0 %}
+      <div class="cart-table">
+        <div class="cart-row header">
+          <div class="cart-cell">Item Name</div>
+          <div class="cart-cell">Price</div>
+          <div class="cart-cell">Quantity</div>
+          <div class="cart-cell">Total</div>
+          <div class="cart-cell">Action</div>
+        </div>
+
+        {% for item in cart %}
+        <div class="cart-row">
+          <div class="cart-cell">
+            {{ item.name }}
+            {% if item.is_sold_out %}
+              <div style="color: red; font-size: 0.85rem; margin-top: 5px;">
+                ❌ This item is now out of stock. Available: {{ item.current_stock }}
+              </div>
+            {% endif %}
+          </div>
+          <div class="cart-cell">₹{{ item.price }}</div>
+          <div class="cart-cell">
+            {% if not item.is_sold_out %}
+              <form action="{{ url_for('update_quantity', item_name=item.name) }}" method="post">
+                <button type="submit" name="action" value="decrease">−</button>
+                <input type="text" name="quantity" value="{{ item.quantity }}" readonly style="width: 30px; text-align: center; background: transparent; border: none;" />
+                <button type="submit" name="action" value="increase">+</button>
+              </form>
+            {% else %}
+              <span style="color: red; font-weight: bold;">Sold Out</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            {% if not item.is_sold_out %}
+              ₹{{ item.price * item.quantity }}
+            {% else %}
+              <span style="color: gray;">—</span>
+            {% endif %}
+          </div>
+          <div class="cart-cell">
+            <a href="{{ url_for('remove_from_cart', item_name=item.name) }}" style="color: red; text-decoration: none;">Remove</a>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="cart-row" style="font-weight: bold;">
+          <div class="cart-cell"></div>
+          <div class="cart-cell"></div>
+          <div class="cart-cell" style="text-align: right;">Total:</div>
+          <div class="cart-cell">₹{{ total }}</div>
+          <div class="cart-cell"></div>
+        </div>
+
+        <div class="cart-row" style="justify-content: space-between; align-items: center; border-bottom: none; margin-top: 1.5rem;">
+          <a href="{{ url_for('user_menu') }}">
+            <button class="btn-back">📖 Back to Menu</button>
+          </a>
+          <a href="{{ url_for('clear_cart') }}">
+            <button class="btn-clear">🗑️ Clear Cart</button>
+          </a>
+        </div>
+      </div>
+
+      {% if total > 0 %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('checkout') }}">
+          <button class="proceed-pay-btn">🛍️ Checkout</button>
+        </a>
+      </div>
+      {% else %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <p style="color: red; font-weight: bold;">All items in your cart are currently out of stock.</p>
+      </div>
+      {% endif %}
+
+      {% else %}
+      <p class="no-items">Your cart is empty.</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ url_for('user_menu') }}">
+          <button class="btn-back">📖 Go to Menu</button>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('main').classList.toggle('collapsed');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile');
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

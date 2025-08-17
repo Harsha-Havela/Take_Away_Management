@@ -1,0 +1,212 @@
+{
+    "Main Course": [
+        {
+            "name": "Veg Biryani",
+            "price": 120,
+            "quantity": 1
+        },
+        {
+            "name": "Chicken Biryani",
+            "price": 160,
+            "quantity": 0
+        },
+        {
+            "name": "Mutton Biryani",
+            "price": 200,
+            "quantity": 0
+        },
+        {
+            "name": "Paneer Butter Masala",
+            "price": 140,
+            "quantity": 0
+        },
+        {
+            "name": "Butter Chicken",
+            "price": 180,
+            "quantity": 0
+        },
+        {
+            "name": "Fish Curry",
+            "price": 180,
+            "quantity": 8
+        },
+        {
+            "name": "Dal Tadka",
+            "price": 90,
+            "quantity": 0
+        },
+        {
+            "name": "Kadai Paneer",
+            "price": 150,
+            "quantity": 2
+        },
+        {
+            "name": "Egg Curry",
+            "price": 110,
+            "quantity": 0
+        },
+        {
+            "name": "Jeera Rice",
+            "price": 80,
+            "quantity": 9
+        }
+    ],
+    "South Indian": [
+        {
+            "name": "Masala Dosa",
+            "price": 60,
+            "quantity": 8
+        },
+        {
+            "name": "Plain Dosa",
+            "price": 40,
+            "quantity": 8
+        },
+        {
+            "name": "Idli Sambar",
+            "price": 40,
+            "quantity": 8
+        },
+        {
+            "name": "Medu Vada",
+            "price": 45,
+            "quantity": 10
+        },
+        {
+            "name": "Uttapam",
+            "price": 55,
+            "quantity": 10
+        },
+        {
+            "name": "Rava Dosa",
+            "price": 65,
+            "quantity": 10
+        },
+        {
+            "name": "Onion Dosa",
+            "price": 70,
+            "quantity": 10
+        },
+        {
+            "name": "Pongal",
+            "price": 45,
+            "quantity": 7
+        },
+        {
+            "name": "Tomato Rice",
+            "price": 60,
+            "quantity": 8
+        },
+        {
+            "name": "Lemon Rice",
+            "price": 55,
+            "quantity": 8
+        }
+    ],
+    "Snacks": [
+        {
+            "name": "Chole Bhature",
+            "price": 90,
+            "quantity": 6
+        },
+        {
+            "name": "Pav Bhaji",
+            "price": 80,
+            "quantity": 8
+        },
+        {
+            "name": "Samosa",
+            "price": 20,
+            "quantity": 8
+        },
+        {
+            "name": "Kachori",
+            "price": 25,
+            "quantity": 7
+        },
+        {
+            "name": "Pakora",
+            "price": 35,
+            "quantity": 7
+        },
+        {
+            "name": "Veg Cutlet",
+            "price": 40,
+            "quantity": 9
+        },
+        {
+            "name": "Spring Rolls",
+            "price": 70,
+            "quantity": 8
+        },
+        {
+            "name": "French Fries",
+            "price": 60,
+            "quantity": 9
+        },
+        {
+            "name": "Cheese Balls",
+            "price": 75,
+            "quantity": 8
+        },
+        {
+            "name": "Onion Rings",
+            "price": 65,
+            "quantity": 7
+        }
+    ],
+    "Desserts": [
+        {
+            "name": "Gulab Jamun",
+            "price": 30,
+            "quantity": 7
+        },
+        {
+            "name": "Rasgulla",
+            "price": 35,
+            "quantity": 10
+        },
+        {
+            "name": "Ice Cream",
+            "price": 50,
+            "quantity": 8
+        },
+        {
+            "name": "Kheer",
+            "price": 40,
+            "quantity": 8
+        },
+        {
+            "name": "Jalebi",
+            "price": 35,
+            "quantity": 7
+        }
+    ],
+    "Beverages": [
+        {
+            "name": "Masala Chai",
+            "price": 20,
+            "quantity": 7
+        },
+        {
+            "name": "Filter Coffee",
+            "price": 25,
+            "quantity": 10
+        },
+        {
+            "name": "Lassi",
+            "price": 40,
+            "quantity": 8
+        },
+        {
+            "name": "Cold Drink",
+            "price": 30,
+            "quantity": 10
+        },
+        {
+            "name": "Fresh Lime Soda",
+            "price": 35,
+            "quantity": 10
+        }
+    ]
+}

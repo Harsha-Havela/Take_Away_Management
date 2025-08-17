@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu - Time Pass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* EXISTING CSS FROM menu.html — DO NOT CHANGE */
+    :root {
+      --sidebar-width: 240px;
+      --sidebar-collapsed-width: 60px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      background-color: #f9f9f9;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: #2f3542;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: width 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #444;
+      font-size: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed h2 {
+      opacity: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .sidebar ul li {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      margin: 10px;
+      background-color: #3742fa;
+      border-radius: 5px;
+      cursor: pointer;
+      gap: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #57606f;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .sidebar.collapsed ul li a span.text {
+      display: none;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
+      background-color: rgba(128, 128, 128, 0.293);
+    }
+
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+
+    .topbar {
+      background-color: rgba(255, 255, 255);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ddd;
+      backdrop-filter: blur(4px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .toggle-btn {
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+      user-select: none;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 45px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-width: 150px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      gap: 10px;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-wrapper input[type="text"] {
+      padding: 10px 35px 10px 15px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .search-container button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #2f3542;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .search-container button[type="submit"]:hover {
+      background-color: #57606f;
+    }
+
+    .category-section {
+      margin-bottom: 2rem;
+    }
+
+    .category-header {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #2f3542;
+      border-bottom: 2px solid #3742fa;
+      padding-bottom: 4px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-header .arrow {
+      font-weight: 900;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+
+    .category-header.collapsed .arrow {
+      transform: rotate(-90deg);
+    }
+
+    .category-items {
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      overflow: hidden;
+    }
+
+    .category-items.collapsed {
+      max-height: 0;
+      padding: 0;
+      margin: 0;
+      border: none;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 15px;
+      border-bottom: 1px solid #eee;
+      font-size: 1.1rem;
+      color: #444;
+      border-radius: 3px;
+      background-color: white;
+      margin-bottom: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: background-color 0.2s;
+    }
+
+    .menu-item:hover {
+      background-color: #f1f3ff;
+    }
+
+    .item-name {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .menu-item input[type="number"] {
+      width: 80px;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .menu-item button {
+      padding: 6px 12px;
+      background-color: #3742fa;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .menu-item button:hover {
+      background-color: #57606f;
+    }
+
+    p.no-items {
+      color: red;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <h2>User</h2>
+    <ul>
+      <li><a href="{{ url_for('user_dashboard') }}">🏠 <span class="text">Home</span></a></li>
+      <li><a href="{{ url_for('user_menu') }}">📋 <span class="text">Menu</span></a></li>
+      <li><a href="{{ url_for('user_orders') }}">🧾 <span class="text">My Orders</span></a></li>
+      <li><a href="{{ url_for('user_feedback') }}">✍️ <span class="text">Feedback</span></a></li>
+      <li><a href="{{ url_for('user_about_us') }}">ℹ️ <span class="text">About Us</span></a></li>
+      <li><a href="{{ url_for('view_cart') }}"> 🛒<span class="text">Cart</span></a></li>
+    </ul>
+  </div>
+
+  <div class="main-content" id="main">
+    <div class="topbar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+      </div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#">Edit Profile</a>
+        <a href="#">Settings</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Menu</h1>
+
+      <form method="GET" action="{{ url_for('user_menu') }}" class="search-container" autocomplete="off">
+        <div class="search-wrapper">
+          <input type="text" name="query" id="searchInput" placeholder="Search menu..." value="{{ search_query or '' }}" />
+          <button type="button" class="clear-btn" onclick="clearSearch()">×</button>
+        </div>
+        <button type="submit">Search</button>
+      </form>
+
+      {% if menu_items %}
+        {% for category, items in menu_items.items() %}
+          <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span class="arrow">▾</span> {{ category }}
+            </div>
+            <div class="category-items">
+              <div class="menu-item" style="background-color: #f1f1f1; box-shadow: none;">
+                <span class="item-name" style="font-weight: 700; color: #2f3542;">Item Name</span>
+                <div style="width: 80px; text-align: center; font-weight: 700; color: #2f3542;">Price</div>
+                <div style="width: 80px; text-align: center; font-weight: 700; color: #2f3542;">Quantity</div>
+                <div style="width: 80px; text-align: center; font-weight: 700; color: #2f3542;">Actions</div>
+              </div>
+              {% for item in items %}
+                <form method="POST" action="{{ url_for('view_cart') }}">
+                  <div class="menu-item">
+                    <input type="hidden" name="category" value="{{ category }}">
+                    <input type="hidden" name="name" value="{{ item.name }}">
+                    <input type="hidden" name="price" value="{{ item.price }}">
+                    <span class="item-name">{{ item.name }}</span>
+                    <div style="width: 80px; text-align: center;">&#8377;{{ item.price }}</div>
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 80px;">
+                      <input type="number" name="quantity" value="0" min="0" max="{{ item.quantity }}" required style="width: 70px; text-align: center;">
+                      <span style="font-size: 12px; color: gray;">{{ item.quantity }} available</span>
+                    </div>
+                    <button type="submit">Add to Cart</button>
+                  </div>
+                </form>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-items">No matching menu items found.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+      document.getElementById('main').classList.toggle('collapsed');
+    }
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile');
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      window.location.href = "{{ url_for('user_menu') }}";
+    }
+    function toggleCategory(header) {
+      const categoryItems = header.nextElementSibling;
+      const arrow = header.querySelector('.arrow');
+      const isCollapsed = categoryItems.classList.toggle('collapsed');
+      if (isCollapsed) {
+        arrow.textContent = '▸';
+        header.classList.add('collapsed');
+      } else {
+        arrow.textContent = '▾';
+        header.classList.remove('collapsed');
+      }
+    }
+  </script>
+</body>
+</html>
